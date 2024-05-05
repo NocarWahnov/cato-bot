@@ -1,5 +1,6 @@
 import bot.ChannelEditor;
-import bot.botCommands;
+import bot.LoginBot;
+import bot.botCommandsHandler;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
@@ -23,14 +24,15 @@ public class tsRssBot {
         query.connect();
 
         TS3Api api = query.getApi();
+        LoginBot bot = new LoginBot(api);
+        bot.connect();
+
+        //Handle incoming commands
+        botCommandsHandler botCommandsHandler = new botCommandsHandler(api, query);
+        botCommandsHandler.commands();
+
+        //Edit the Channel to RSS Feed
         ChannelEditor channelEditor = new ChannelEditor(api);
-
-        channelEditor.loginBot();
-        channelEditor.tellChannelID();
-
-        botCommands botCommands = new botCommands(api);
-        botCommands.commands();
-
         Converter converter = new Converter();
         channelEditor.editChannel(
                 (converter.headlineWithLink(extractor.title, extractor.link) +

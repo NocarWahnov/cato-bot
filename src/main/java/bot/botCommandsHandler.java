@@ -1,16 +1,20 @@
 package bot;
 
+import bot.commands.Id;
 import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
-public class botCommands {
+public class botCommandsHandler {
     private final TS3Api api;
+    private final TS3Query query;
 
-    public botCommands(TS3Api api) {
+    public botCommandsHandler(TS3Api api, TS3Query query) {
         this.api = api;
+        this.query = query;
     }
 
     public void commands () {
@@ -36,12 +40,16 @@ public class botCommands {
                         api.sendChannelMessage("Available commands: !id, !whoami, !client");
                     }
                     else if (inputMessage.equals("!id")) {
-                        api.sendChannelMessage(poster + ", " + posterID);
+                        Id id = new Id(api);
+                        id.tellChannelID();
+                    }
+                    else if (inputMessage.equals("!quit")) {
+                        query.exit();
                     }
                     else if (inputMessage.equals("!whoami")) {
                         api.sendChannelMessage("Result: " + channelOfPoster);
                     }
-                    else if (inputMessage.equals("!client")) {
+                    else if (inputMessage.equals("!me")) {
                         //client_channel_group_inherited_channel_id=2
                         api.sendChannelMessage(whereIsClient);
                     }
