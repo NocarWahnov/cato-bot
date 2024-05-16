@@ -1,5 +1,9 @@
 package getNews;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class Converter {
     int headlineSize = 14;
     int paragraphSize = 12;
