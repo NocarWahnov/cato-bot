@@ -14,14 +14,14 @@ public class Id {
     }
 
     //looking for: channel_name=Welcome cid=1, ...
-    public void tellChannelID () {
+    public String tellChannelID () {
         //Save all channels in a List
         List<Channel> allChannels = api.getChannels();
+        String message = "";
 
         //For each Channel api.getChannels
         for (Channel channelEigenschaft : allChannels) {
             String completeInfo = channelEigenschaft.toString();
-            String message = "";
 
             //Split data of every Channel and filter relevant Information
             for (String filteredInfo : completeInfo.split(",")) {
@@ -32,8 +32,7 @@ public class Id {
                     message = message + filteredInfo;
                 }
             }
-            api.sendChannelMessage(message);
         }
-
+        return message;
     }
 }

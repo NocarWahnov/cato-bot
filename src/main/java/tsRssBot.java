@@ -4,16 +4,11 @@ import bot.botCommandsHandler;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import getNews.Converter;
 import getNews.Extractor;
 
 public class tsRssBot {
 
     public static void main(String[] args) {
-
-        Extractor extractor = new Extractor();
-        extractor.fetchWebsite();
-        extractor.extractWebsite();
 
         String ipAddress = "nocars.tk";
         TS3Config config = new TS3Config();
@@ -30,14 +25,5 @@ public class tsRssBot {
         //Handle incoming commands
         botCommandsHandler botCommandsHandler = new botCommandsHandler(api, query);
         botCommandsHandler.commands();
-
-        //Edit the Channel to RSS Feed
-        ChannelEditor channelEditor = new ChannelEditor(api);
-        Converter converter = new Converter();
-        channelEditor.editChannel(
-                (converter.headlineWithLink(extractor.title, extractor.link) +
-                        converter.paragraph(extractor.paragraph) +
-                        converter.date(extractor.date))
-        );
     }
 }

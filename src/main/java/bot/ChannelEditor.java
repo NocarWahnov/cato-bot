@@ -10,9 +10,7 @@ public class ChannelEditor {
         this.api = api;
     }
 
-    int chosenChannelID = 1;
-
-    public void editChannel (String newsMessage) {
+    public void editChannel (String newsMessage, int chosenChannelID) {
         api.editChannel(chosenChannelID, ChannelProperty.CHANNEL_DESCRIPTION, newsMessage);
     }
 }

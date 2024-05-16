@@ -28,24 +28,17 @@ public class Extractor {
         }
     }
 
-    public String title;
-    public String link;
-    public String paragraph;
-    public String date;
-
-    public void extractWebsite() {
+    public String extractWebsite() {
         Elements oneBlock = feed.select(parentSelector);
+        String newsMessage = "";
 
         for (Element tlcd : oneBlock) {
-            title = tlcd.select(titleSelector).text();
-            link = tlcd.select(linkSelector).attr("href");
-            paragraph = tlcd.select(paragraphSelector).text();
-            date = tlcd.select(dateSelector).text();
-
-            //System.out.println(title);
-            //System.out.println(link);
-            //System.out.println(paragraph);
-            //System.out.println(date);
+            newsMessage = newsMessage +
+                          "[b][size="+ 14 + "][url=" + tlcd.select(linkSelector).attr("href") + "]" + tlcd.select(titleSelector).text() + "[/url][/size][/b]" + '\n' +
+                          "[size=" + 12 + "]" + tlcd.select(paragraphSelector).text() + "[/size]" + '\n' +
+                          "[size=" + 8 + "]" + tlcd.select(dateSelector).text() + "[/size]" + '\n' + '\n';
         }
+        return newsMessage;
+
     }
 }
