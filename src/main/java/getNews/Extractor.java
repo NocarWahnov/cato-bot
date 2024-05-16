@@ -6,6 +6,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Extractor {
     private String url = "https://www.guildwars2.com/de/news/";
@@ -42,7 +44,7 @@ public class Extractor {
 
             //System.out.println(title);
             //System.out.println(link);
-            //System.out.println(content);
+            //System.out.println(paragraph);
             //System.out.println(date);
         }
     }

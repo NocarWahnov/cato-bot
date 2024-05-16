@@ -44,6 +44,7 @@ public class botCommandsHandler {
                         id.tellChannelID();
                     }
                     else if (inputMessage.equals("!quit")) {
+                        api.sendChannelMessage("Goodbye!");
                         query.exit();
                     }
                     else if (inputMessage.equals("!whoami")) {
