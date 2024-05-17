@@ -29,7 +29,7 @@ public class Id {
                     message = message + filteredInfo + ", ";
                 }
                 if (filteredInfo.contains("cid")) {
-                    message = message + filteredInfo;
+                    message = message + filteredInfo + '\n';
                 }
             }
         }

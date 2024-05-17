@@ -3,11 +3,12 @@ package bot;
 import bot.commands.Id;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Query;
+import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
-import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
-import getNews.Extractor;
+import getNews.HtmlHandler;
+import getNews.XmlHandler;
 
 public class botCommandsHandler {
     private final TS3Api api;
@@ -53,7 +54,7 @@ public class botCommandsHandler {
 
                     switch (inputMessage) {
                         case "!help", "!h":
-                            api.sendPrivateMessage(e.getInvokerId(), "Available commands: !id, !quit, !wherebot, !aboutme, !edit ID SOURCE");
+                            api.sendPrivateMessage(e.getInvokerId(), "Available commands: !id, !shutdown, !wherebot, !aboutme, !edit ID SOURCE");
                             break;
 
                         case "!id":
@@ -61,7 +62,7 @@ public class botCommandsHandler {
                             api.sendPrivateMessage(e.getInvokerId(), id.tellChannelID());
                             break;
 
-                        case "!quit":
+                        case "!shutdown":
                             api.sendPrivateMessage(e.getInvokerId(),"Goodbye!");
                             query.exit();
                             break;
@@ -79,14 +80,23 @@ public class botCommandsHandler {
                             break;
                     }
 
-                    if (inputMessage.startsWith("!edit")) {
+                    if (inputMessage.startsWith("!edithtml")) {
                         String[] filterInt = inputMessage.split("\\s+");
                         int channelNumber = Integer.parseInt(filterInt[1]);
-                        ChannelEditor channelEditor = new ChannelEditor(api);
-                        Extractor extractor = new Extractor();
-                        extractor.fetchWebsite();
-                        channelEditor.editChannel(extractor.extractWebsite(),channelNumber);
 
+                        HtmlHandler htmlHandler = new HtmlHandler();
+
+                        api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, htmlHandler.handleHtml());
+                        api.sendPrivateMessage(e.getInvokerId(),"Edited Channel: " + channelNumber + " :)");
+                    }
+                    else if (inputMessage.startsWith("!edit")) {
+                        String[] splitCommand = inputMessage.split("\\s+");
+                        int channelNumber = Integer.parseInt(splitCommand[1]);
+                        String url = splitCommand[2].replaceAll("\\[.*?\\] ?", "");
+
+                        XmlHandler xmlHandler = new XmlHandler(url);
+
+                        api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, xmlHandler.handleXml());
                         api.sendPrivateMessage(e.getInvokerId(),"Edited Channel: " + channelNumber + " :)");
                     }
                 }

@@ -1,10 +1,8 @@
-import bot.ChannelEditor;
 import bot.LoginBot;
 import bot.botCommandsHandler;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import getNews.Extractor;
 
 public class tsRssBot {
 
