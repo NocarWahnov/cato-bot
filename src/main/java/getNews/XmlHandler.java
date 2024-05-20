@@ -37,7 +37,8 @@ public class XmlHandler {
         } catch (IOException e) {
             System.err.println("Error fetching website: " + url + e.getMessage());
         }
-        System.out.println(xmlToBB.length());
-        return "Error: String xmlToBB was too big :/";
+        //System.out.println(xmlToBB.length());
+        //System.out.println(xmlToBB);
+        return xmlToBB;
     }
 }

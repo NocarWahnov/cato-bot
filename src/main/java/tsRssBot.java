@@ -10,7 +10,7 @@ public class tsRssBot {
         String ipAddress = "nocars.tk";
         String username = "serveradmin";
         String password = "2jtwh++y";
-        String nickname = "LeBot";
+        String nickname = "CajaRSS";
         String arrivalMessage = nickname + " is online!";
 
         TS3Config config = new TS3Config();

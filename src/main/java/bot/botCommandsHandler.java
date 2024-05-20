@@ -54,29 +54,17 @@ public class botCommandsHandler {
 
                     switch (inputMessage) {
                         case "!help", "!h":
-                            api.sendPrivateMessage(e.getInvokerId(), "Available commands: !id, !shutdown, !wherebot, !aboutme, !edit ID SOURCE");
+                            api.sendPrivateMessage(e.getInvokerId(), "Available commands: !cid, !shutdown, !edit CID SOURCE, !editHTML CID SOURCE CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE");
                             break;
 
-                        case "!id":
+                        case "!cid":
                             Id id = new Id(api);
                             api.sendPrivateMessage(e.getInvokerId(), id.tellChannelID());
                             break;
 
                         case "!shutdown":
-                            api.sendPrivateMessage(e.getInvokerId(),"Goodbye!");
+                            api.sendPrivateMessage(e.getInvokerId(),"Shutting down - Goodbye!");
                             query.exit();
-                            break;
-
-                        case "!wherebot":
-                            int channelOfPoster = api.whoAmI().getChannelId();
-                            api.sendPrivateMessage(e.getInvokerId(),"Result: " + channelOfPoster);
-                            break;
-
-                        case "!aboutme":
-                            int posterID = e.getInvokerId();
-                            String whereIsClient = String.valueOf(api.getClientInfo(posterID));
-                            //client_channel_group_inherited_channel_id=2
-                            api.sendPrivateMessage(e.getInvokerId(),whereIsClient);
                             break;
                     }
 
