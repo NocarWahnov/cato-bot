@@ -4,6 +4,7 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Channel;
 
 import java.util.List;
+import java.util.Map;
 
 public class Id {
 
@@ -17,19 +18,28 @@ public class Id {
     public String tellChannelID () {
         //Save all channels in a List
         List<Channel> allChannels = api.getChannels();
-        String message = "";
+        String message = "\n";
 
         //For each Channel api.getChannels
-        for (Channel channelEigenschaft : allChannels) {
-            String completeInfo = channelEigenschaft.toString();
+        for (Channel channelProperty : allChannels) {
+            String completeInfo = channelProperty.toString();
 
             //Split data of every Channel and filter relevant Information
             for (String filteredInfo : completeInfo.split(",")) {
+                String channelName = "";
+                String channelId = "";
+
                 if (filteredInfo.contains("channel_name")) {
-                    message = message + filteredInfo + ", ";
+                    String[] split = filteredInfo.split("=");
+                    channelName = split[1];
+
+                    message = message + channelName + ": ";
                 }
                 if (filteredInfo.contains("cid")) {
-                    message = message + filteredInfo + '\n';
+                    String[] split = filteredInfo.split("=");
+                    channelId = split[1];
+
+                    message = message + channelId +'\n';
                 }
             }
         }

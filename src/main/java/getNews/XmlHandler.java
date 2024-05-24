@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class XmlHandler {
-    String url;
+    private final String url;
 
     public XmlHandler (String url) {
         this.url = url;

@@ -7,14 +7,11 @@ public class tsRssBot {
 
     public static void main(String[] args) {
 
-        String ipAddress = "nocars.tk";
-        String username = "serveradmin";
-        String password = "2jtwh++y";
-        String nickname = "CajaRSS";
-        String arrivalMessage = nickname + " is online!";
+        YamlHandler yaml = new YamlHandler();
+        yaml.getYaml();
 
         TS3Config config = new TS3Config();
-        config.setHost(ipAddress);
+        config.setHost(yaml.getIpAddress());
         config.setEnableCommunicationsLogging(true);
 
         //Connect and Login Bot
@@ -22,10 +19,10 @@ public class tsRssBot {
         query.connect();
 
         TS3Api api = query.getApi();
-        api.login(username, password);
+        api.login(yaml.getUsername(), yaml.getPassword());
         api.selectVirtualServerById(1);
-        api.setNickname(nickname);
-        api.sendChannelMessage(arrivalMessage);
+        api.setNickname(yaml.getNickname());
+        api.sendChannelMessage(yaml.getNickname() + " is online!");
 
         //Handle incoming commands
         botCommandsHandler botCommandsHandler = new botCommandsHandler(api, query);

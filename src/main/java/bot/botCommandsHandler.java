@@ -24,7 +24,6 @@ public class botCommandsHandler {
         final int clientId = api.whoAmI().getId();
 
         //Type of event to listen to
-        //api.registerEvent(TS3EventType.TEXT_CHANNEL);
         api.registerAllEvents();
 
         //Listen to Channel Messages
@@ -36,7 +35,7 @@ public class botCommandsHandler {
 
                     switch (inputMessage) {
                         case "!ping":
-                            api.sendPrivateMessage(e.getInvokerId(), "Hi, how can I !help? :)");
+                            api.sendPrivateMessage(e.getInvokerId(), "Hello there! Type !h for an overview of available commands.");
                             break;
                     }
                 }
@@ -54,7 +53,11 @@ public class botCommandsHandler {
 
                     switch (inputMessage) {
                         case "!help", "!h":
-                            api.sendPrivateMessage(e.getInvokerId(), "Available commands: !cid, !shutdown, !edit CID SOURCE, !editHTML CID SOURCE CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE");
+                            api.sendPrivateMessage(e.getInvokerId(), "Available commands:" + '\n' +
+                                    "!cid - Shows all Channels and their IDs." + '\n' +
+                                    "!shutdown - Disconnects the Bot from the server and disables any channel updates." + '\n' +
+                                    "!edit CID RSS-SOURCE - Defines a channel and a source the Bot is supposed to edit. Only Accepts xml. For other sources check !editHTML." + '\n' +
+                                    "!editHTML CID SOURCE CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Defines a channel and a source the Bot is supposed to edit. Fetches Websites HTML with defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]");
                             break;
 
                         case "!cid":
@@ -69,10 +72,16 @@ public class botCommandsHandler {
                     }
 
                     if (inputMessage.startsWith("!edithtml")) {
-                        String[] filterInt = inputMessage.split("\\s+");
-                        int channelNumber = Integer.parseInt(filterInt[1]);
+                        String[] splitCommand = inputMessage.split("\\s+");
+                        int channelNumber = Integer.parseInt(splitCommand[1]);
+                        String url = splitCommand[2].replaceAll("\\[.*?\\] ?", "");
+                        String parent = splitCommand[3];
+                        String title = splitCommand[4];
+                        String link = splitCommand[5];
+                        String description = splitCommand[6];
+                        String date = splitCommand[7];
 
-                        HtmlHandler htmlHandler = new HtmlHandler();
+                        HtmlHandler htmlHandler = new HtmlHandler(url, parent, title, link, description, date);
 
                         api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, htmlHandler.handleHtml());
                         api.sendPrivateMessage(e.getInvokerId(),"Edited Channel: " + channelNumber + " :)");
