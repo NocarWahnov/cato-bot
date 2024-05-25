@@ -1,9 +1,9 @@
-import bot.botCommandsHandler;
+import bot.BotCommandsHandler;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 
-public class tsRssBot {
+public class RssBot {
 
     public static void main(String[] args) {
 
@@ -25,7 +25,7 @@ public class tsRssBot {
         api.sendChannelMessage(yaml.getNickname() + " is online!");
 
         //Handle incoming commands
-        botCommandsHandler botCommandsHandler = new botCommandsHandler(api, query);
+        BotCommandsHandler botCommandsHandler = new BotCommandsHandler(api, query);
         botCommandsHandler.commands();
     }
 }

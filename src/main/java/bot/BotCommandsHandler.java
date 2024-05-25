@@ -1,6 +1,5 @@
 package bot;
 
-import bot.commands.Id;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
@@ -10,11 +9,11 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import getNews.HtmlHandler;
 import getNews.XmlHandler;
 
-public class botCommandsHandler {
+public class BotCommandsHandler {
     private final TS3Api api;
     private final TS3Query query;
 
-    public botCommandsHandler(TS3Api api, TS3Query query) {
+    public BotCommandsHandler(TS3Api api, TS3Query query) {
         this.api = api;
         this.query = query;
     }

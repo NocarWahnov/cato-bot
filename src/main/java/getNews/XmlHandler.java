@@ -14,8 +14,6 @@ public class XmlHandler {
         this.url = url;
     }
 
-    //String url = "https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml";
-
     Document xml = null;
 
     public String handleXml () {
@@ -38,7 +36,6 @@ public class XmlHandler {
             System.err.println("Error fetching website: " + url + e.getMessage());
         }
         //System.out.println(xmlToBB.length());
-        //System.out.println(xmlToBB);
         return xmlToBB;
     }
 }

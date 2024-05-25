@@ -1,10 +1,9 @@
-package bot.commands;
+package bot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Channel;
 
 import java.util.List;
-import java.util.Map;
 
 public class Id {
 
