@@ -6,6 +6,7 @@ import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
+import config.YamlHandler;
 import getNews.HtmlHandler;
 import getNews.XmlHandler;
 
@@ -55,8 +56,8 @@ public class BotCommandsHandler {
                             api.sendPrivateMessage(e.getInvokerId(), "Available commands:" + '\n' +
                                     "!cid - Shows all Channels and their IDs." + '\n' +
                                     "!shutdown - Disconnects the Bot from the server and disables any channel updates." + '\n' +
-                                    "!edit CID RSS-SOURCE - Defines a channel and a source the Bot is supposed to edit. Only Accepts xml. For other sources check !editHTML." + '\n' +
-                                    "!editHTML CID SOURCE CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Defines a channel and a source the Bot is supposed to edit. Fetches Websites HTML with defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]");
+                                    "!edit CID RSS-URL - Defines a channel and a source the Bot is supposed to edit. Only Accepts xml. For other sources check !editHTML." + '\n' +
+                                    "!editHTML CID URL CSS-PARENT CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Defines a channel and a source the Bot is supposed to edit. Fetches Websites HTML with defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]");
                             break;
 
                         case "!cid":
@@ -84,6 +85,10 @@ public class BotCommandsHandler {
 
                         api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, htmlHandler.handleHtml());
                         api.sendPrivateMessage(e.getInvokerId(),"Edited Channel: " + channelNumber + " :)");
+
+                        YamlHandler yaml = new YamlHandler();
+                        String store = url + " " + parent + " " + title + " " + link + " " + description + " " + date;
+                        yaml.addNews(channelNumber, store);
                     }
                     else if (inputMessage.startsWith("!edit")) {
                         String[] splitCommand = inputMessage.split("\\s+");
@@ -94,6 +99,9 @@ public class BotCommandsHandler {
 
                         api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, xmlHandler.handleXml());
                         api.sendPrivateMessage(e.getInvokerId(),"Edited Channel: " + channelNumber + " :)");
+
+                        YamlHandler yaml = new YamlHandler();
+                        yaml.addNews(channelNumber, url);
                     }
                 }
             }
