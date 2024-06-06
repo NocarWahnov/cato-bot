@@ -5,5 +5,5 @@
 - [x] ID schöner im Chat ausgeben
 - [x] Yaml Speicherung anpassen, dass die Strings angehängt und nicht ersetzt werden.
 - [x] Regelmäßiges aktualisieren der Quellen
-- [ ] Es gibt HTML Links, die nur den Dateipfad als href haben. Dann muss die URL vorne rangehängt werden
+- [x] Es gibt HTML Links, die nur den Dateipfad als href haben. Dann muss die URL vorne rangehängt werden
 - [ ] Tutorial link für !editHTML

@@ -2,3 +2,5 @@
 2: https://www.guildwars2.com/de/news/ li.blog-post h3.blog-title h3.blog-title>a
   div.text>p:first-child p.blog-attribution
 3: https://www.gamestar.de/news/topnews/ .media h2>a h2>a p.caption p.info
+4: https://9to5mac.com/ article.article.standard h2.h1 h2.h1>a div.article__content>div.article__excerpt>p
+  div.post-meta>span.meta__post-date

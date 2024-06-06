@@ -45,7 +45,7 @@ public class HtmlHandler {
                         "[size=" + 8 + "]" + tlcd.select(dateSelector).text() + "[/size]" + '\n' + '\n';
 
                 if (htmlToBB.length() > 7500) {
-                    System.out.println(htmlToBB.length());
+                    System.out.println(url + " Feed Size: " + htmlToBB.length());
                     return htmlToBB;
                 }
             }
@@ -53,7 +53,7 @@ public class HtmlHandler {
         } catch (IOException error) {
             System.err.println("Error fetching website: " + url + error.getMessage());
         }
-        //System.out.println(htmlToBB.length());
+        System.out.println(url + " Feed Size: " + htmlToBB.length());
         return htmlToBB;
     }
 }
