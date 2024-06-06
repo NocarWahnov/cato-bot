@@ -8,12 +8,12 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class HtmlHandler {
-    private final String url; // = "https://www.guildwars2.com/de/news/", "https://9to5mac.com/" !edit 1 https://www.guildwars2.com/de/news/ li.blog-post h3.blog-title h3.blog-title > a div.text > p:first-child p.blog-attribution
-    private final String parentSelector; // = "li.blog-post", "article.article.standard"
-    private final String titleSelector; // = "h3.blog-title", "h2.h1"
-    private final String linkSelector; // = "h3.blog-title > a"; "h2.h1>a"
-    private final String paragraphSelector; // = "div.text > p:first-child", "div.article__content>div.article__excerpt>p"
-    private final String dateSelector; // = "p.blog-attribution", "div.post-meta>span.meta__post-date"
+    private final String url; // !edithtml 1 https://www.guildwars2.com/de/news/ li.blog-post h3.blog-title h3.blog-title>a div.text>p:first-child p.blog-attribution
+    private final String parentSelector; // !edithtml 3 https://9to5mac.com/ article.article.standard h2.h1 h2.h1>a div.article__content>div.article__excerpt>p div.post-meta>span.meta__post-date
+    private final String titleSelector;
+    private final String linkSelector;
+    private final String paragraphSelector;
+    private final String dateSelector;
 
     Document feed = null;
 
@@ -34,12 +34,18 @@ public class HtmlHandler {
             Elements oneNews = feed.select(parentSelector);
 
             for (Element tlcd : oneNews) {
+                String href = tlcd.select(linkSelector).attr("href");
+                if (href.startsWith("/")) {
+                    href = url + href;
+                }
+
                 htmlToBB = htmlToBB +
-                        "[b][size=" + 14 + "][url=" + tlcd.select(linkSelector).attr("href") + "]" + tlcd.select(titleSelector).text() + "[/url][/size][/b]" + '\n' +
+                        "[b][size=" + 14 + "][url=" + href + "]" + tlcd.select(titleSelector).text() + "[/url][/size][/b]" + '\n' +
                         "[size=" + 12 + "]" + tlcd.select(paragraphSelector).text() + "[/size]" + '\n' +
                         "[size=" + 8 + "]" + tlcd.select(dateSelector).text() + "[/size]" + '\n' + '\n';
 
                 if (htmlToBB.length() > 7500) {
+                    System.out.println(htmlToBB.length());
                     return htmlToBB;
                 }
             }

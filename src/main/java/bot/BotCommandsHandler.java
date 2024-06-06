@@ -10,13 +10,24 @@ import config.YamlHandler;
 import getNews.HtmlHandler;
 import getNews.XmlHandler;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.concurrent.ScheduledExecutorService;
+
 public class BotCommandsHandler {
     private final TS3Api api;
     private final TS3Query query;
+    private final ScheduledExecutorService executor;
 
-    public BotCommandsHandler(TS3Api api, TS3Query query) {
+    YamlHandler yaml = new YamlHandler();
+
+    public BotCommandsHandler(TS3Api api, TS3Query query, ScheduledExecutorService executor) {
         this.api = api;
         this.query = query;
+        this.executor = executor;
     }
 
     public void commands () {
@@ -57,7 +68,8 @@ public class BotCommandsHandler {
                                     "!cid - Shows all Channels and their IDs." + '\n' +
                                     "!shutdown - Disconnects the Bot from the server and disables any channel updates." + '\n' +
                                     "!edit CID RSS-URL - Defines a channel and a source the Bot is supposed to edit. Only Accepts xml. For other sources check !editHTML." + '\n' +
-                                    "!editHTML CID URL CSS-PARENT CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Defines a channel and a source the Bot is supposed to edit. Fetches Websites HTML with defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]");
+                                    "!editHTML CID URL CSS-PARENT CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Defines a channel and a source the Bot is supposed to edit. Fetches Websites HTML with defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]" + '\n' +
+                                    "!rm CID - Removes the feed from the given channel-id");
                             break;
 
                         case "!cid":
@@ -66,8 +78,22 @@ public class BotCommandsHandler {
                             break;
 
                         case "!shutdown":
+                            LocalDateTime time = LocalDateTime.now();
+
+                            try {
+                                Path copied = Paths.get("src/main/resources/backups/news-" + time + ".yaml");
+                                Path originalPath = Paths.get("src/main/resources/news.yaml");
+                                Files.copy(originalPath, copied);
+
+                            } catch (IOException ex) {
+                                api.sendPrivateMessage(e.getInvokerId(),"Error backing up news.yaml!");
+                            }
+
+                            api.sendPrivateMessage(e.getInvokerId(), "Successfully backed up news.yaml as news-" + time + ".yaml");
                             api.sendPrivateMessage(e.getInvokerId(),"Shutting down - Goodbye!");
                             query.exit();
+                            executor.shutdown();
+
                             break;
                     }
 
@@ -84,11 +110,12 @@ public class BotCommandsHandler {
                         HtmlHandler htmlHandler = new HtmlHandler(url, parent, title, link, description, date);
 
                         api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, htmlHandler.handleHtml());
-                        api.sendPrivateMessage(e.getInvokerId(),"Edited Channel: " + channelNumber + " :)");
 
-                        YamlHandler yaml = new YamlHandler();
                         String store = url + " " + parent + " " + title + " " + link + " " + description + " " + date;
                         yaml.addNews(channelNumber, store);
+                        yaml.writeNews();
+
+                        api.sendPrivateMessage(e.getInvokerId(),"Added custom html feed from " + url + " to channel: " + channelNumber + " :)");
                     }
                     else if (inputMessage.startsWith("!edit")) {
                         String[] splitCommand = inputMessage.split("\\s+");
@@ -98,10 +125,21 @@ public class BotCommandsHandler {
                         XmlHandler xmlHandler = new XmlHandler(url);
 
                         api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, xmlHandler.handleXml());
-                        api.sendPrivateMessage(e.getInvokerId(),"Edited Channel: " + channelNumber + " :)");
 
-                        YamlHandler yaml = new YamlHandler();
                         yaml.addNews(channelNumber, url);
+                        yaml.writeNews();
+
+                        api.sendPrivateMessage(e.getInvokerId(),"Added rss-feed from" + url + " to channel: " + channelNumber + " :)");
+                    }
+                    else if (inputMessage.startsWith("!rm")) {
+                        String[] splitCommand = inputMessage.split("\\s+");
+                        int channelNumber = Integer.parseInt(splitCommand[1]);
+
+                        api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, "");
+                        yaml.removeNews(channelNumber);
+                        yaml.writeNews();
+
+                        api.sendPrivateMessage(e.getInvokerId(),"Removed feed from channel: " + channelNumber + " :)");
                     }
                 }
             }

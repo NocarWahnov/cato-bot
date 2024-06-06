@@ -14,7 +14,7 @@ public class YamlHandler {
     private String password;
     private String nickname;
 
-    public void getYaml () {
+    public void readConfig() {
         File file = new File("src/main/resources/config.yaml");
         try {
             Yaml yaml = new Yaml();
@@ -52,13 +52,19 @@ public class YamlHandler {
 
     public void addNews (int id, String parameters) {
         news.put(id, parameters);
+    }
 
+    public void removeNews (int id) {
+        news.remove(id);
+    }
+
+    public void writeNews() {
         try {
             FileWriter writer = new FileWriter("src/main/resources/news.yaml");
             DumperOptions options = new DumperOptions();
             options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-            Yaml yaml = new Yaml(options);
-            yaml.dump(news, writer);
+            Yaml writeyaml = new Yaml(options);
+            writeyaml.dump(news, writer);
 
         } catch (IOException e) {
             System.err.println("Error writing news.yaml " + e.getMessage());
