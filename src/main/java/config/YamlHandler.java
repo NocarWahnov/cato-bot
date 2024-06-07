@@ -15,7 +15,7 @@ public class YamlHandler {
     private String nickname;
 
     public void readConfig() {
-        File file = new File("src/main/resources/config.yaml");
+        File file = new File("config.yaml");
         try {
             Yaml yaml = new Yaml();
             InputStream fis = new FileInputStream(file);
@@ -27,7 +27,7 @@ public class YamlHandler {
             nickname = (String) configyaml.get("nickname");
 
         } catch (FileNotFoundException e) {
-            System.err.println("Error loading config.yaml " + e.getMessage());
+            System.err.println("Error loading config.yaml in Class YamlHandler " + e.getMessage());
         }
 
     }
@@ -60,14 +60,14 @@ public class YamlHandler {
 
     public void writeNews() {
         try {
-            FileWriter writer = new FileWriter("src/main/resources/news.yaml");
+            FileWriter writer = new FileWriter("news/news.yaml");
             DumperOptions options = new DumperOptions();
             options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
             Yaml writeyaml = new Yaml(options);
             writeyaml.dump(news, writer);
 
         } catch (IOException e) {
-            System.err.println("Error writing news.yaml " + e.getMessage());
+            System.err.println("Error writing news.yaml in Class YamlHandler " + e.getMessage());
         }
     }
 }

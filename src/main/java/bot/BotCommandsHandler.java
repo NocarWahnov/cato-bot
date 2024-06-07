@@ -67,8 +67,8 @@ public class BotCommandsHandler {
                             api.sendPrivateMessage(e.getInvokerId(), "Available commands:" + '\n' +
                                     "!cid - Shows all Channels and their IDs." + '\n' +
                                     "!shutdown - Disconnects the Bot from the server and disables any channel updates." + '\n' +
-                                    "!edit CID RSS-URL - Defines a channel and a source the Bot is supposed to edit. Only Accepts xml. For other sources check !editHTML." + '\n' +
-                                    "!editHTML CID URL CSS-PARENT CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Defines a channel and a source the Bot is supposed to edit. Fetches Websites HTML with defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]" + '\n' +
+                                    "!add CID RSS-URL - Only Accepts xml. For other sources check !editHTML." + '\n' +
+                                    "!addHTML CID URL CSS-PARENT CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Fetches Websites HTML with the defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]" + '\n' +
                                     "!rm CID - Removes the feed from the given channel-id");
                             break;
 
@@ -81,12 +81,12 @@ public class BotCommandsHandler {
                             LocalDateTime time = LocalDateTime.now();
 
                             try {
-                                Path copied = Paths.get("src/main/resources/backups/news-" + time + ".yaml");
-                                Path originalPath = Paths.get("src/main/resources/news.yaml");
+                                Path copied = Paths.get("news/backup/news-" + time + ".yaml");
+                                Path originalPath = Paths.get("news/news.yaml");
                                 Files.copy(originalPath, copied);
 
                             } catch (IOException ex) {
-                                api.sendPrivateMessage(e.getInvokerId(),"Error backing up news.yaml!");
+                                api.sendPrivateMessage(e.getInvokerId(),"Error backing up news.yaml in Class BotCommandsHandler!");
                             }
 
                             api.sendPrivateMessage(e.getInvokerId(), "Successfully backed up news.yaml as news-" + time + ".yaml");
@@ -97,7 +97,7 @@ public class BotCommandsHandler {
                             break;
                     }
 
-                    if (inputMessage.startsWith("!edithtml")) {
+                    if (inputMessage.startsWith("!addhtml")) {
                         String[] splitCommand = inputMessage.split("\\s+");
                         int channelNumber = Integer.parseInt(splitCommand[1]);
                         String url = splitCommand[2].replaceAll("\\[.*?\\] ?", "");
@@ -117,7 +117,7 @@ public class BotCommandsHandler {
 
                         api.sendPrivateMessage(e.getInvokerId(),"Added custom html feed from " + url + " to channel: " + channelNumber + " :)");
                     }
-                    else if (inputMessage.startsWith("!edit")) {
+                    else if (inputMessage.startsWith("!add")) {
                         String[] splitCommand = inputMessage.split("\\s+");
                         int channelNumber = Integer.parseInt(splitCommand[1]);
                         String url = splitCommand[2].replaceAll("\\[.*?\\] ?", "");

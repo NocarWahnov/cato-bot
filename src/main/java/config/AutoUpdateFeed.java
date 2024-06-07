@@ -21,7 +21,7 @@ public class AutoUpdateFeed {
     }
 
     public void readNews() {
-        File file = new File("src/main/resources/news.yaml");
+        File file = new File("news/news.yaml");
         try {
             Yaml yaml = new Yaml();
             InputStream fis = new FileInputStream(file);
@@ -46,7 +46,7 @@ public class AutoUpdateFeed {
             }
 
         } catch (FileNotFoundException e) {
-            System.err.println("Error loading news.yaml to auto refresh feeds " + e.getMessage());
+            System.err.println("Error loading news.yaml to auto refresh feeds in Class AutoUpdateFeed.java " + e.getMessage());
         }
     }
 }

@@ -33,7 +33,7 @@ public class XmlHandler {
                 }
 
         } catch (IOException e) {
-            System.err.println("Error fetching website: " + url + e.getMessage());
+            System.err.println("Error fetching website: " + url + " in Class XmlHandler " + e.getMessage());
         }
         //System.out.println(xmlToBB.length());
         return xmlToBB;
