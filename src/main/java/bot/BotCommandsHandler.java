@@ -10,6 +10,7 @@ import config.YamlHandler;
 import getNews.HtmlHandler;
 import getNews.XmlHandler;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,7 +46,7 @@ public class BotCommandsHandler {
                     String inputMessage = e.getMessage().toLowerCase();
 
                     switch (inputMessage) {
-                        case "!ping":
+                        case "!cato":
                             api.sendPrivateMessage(e.getInvokerId(), "Hello there! Type !h for an overview of available commands.");
                             break;
                     }
@@ -84,6 +85,7 @@ public class BotCommandsHandler {
                                 Path copied = Paths.get("news/backup/news-" + time + ".yaml");
                                 Path originalPath = Paths.get("news/news.yaml");
                                 Files.copy(originalPath, copied);
+                                new FileWriter("news/news.yaml", false).close();
 
                             } catch (IOException ex) {
                                 api.sendPrivateMessage(e.getInvokerId(),"Error backing up news.yaml in Class BotCommandsHandler!");
@@ -93,7 +95,6 @@ public class BotCommandsHandler {
                             api.sendPrivateMessage(e.getInvokerId(),"Shutting down - Goodbye!");
                             query.exit();
                             executor.shutdown();
-
                             break;
                     }
 
@@ -115,7 +116,7 @@ public class BotCommandsHandler {
                         yaml.addNews(channelNumber, store);
                         yaml.writeNews();
 
-                        api.sendPrivateMessage(e.getInvokerId(),"Added custom html feed from " + url + " to channel: " + channelNumber + " :)");
+                        api.sendPrivateMessage(e.getInvokerId(),"Added custom html feed from  " + url + " to channel: " + channelNumber + " :)");
                     }
                     else if (inputMessage.startsWith("!add")) {
                         String[] splitCommand = inputMessage.split("\\s+");

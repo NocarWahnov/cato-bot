@@ -12,7 +12,6 @@ public class YamlHandler {
     private String ipAddress;
     private String username;
     private String password;
-    private String nickname;
 
     public void readConfig() {
         File file = new File("config.yaml");
@@ -24,7 +23,6 @@ public class YamlHandler {
             ipAddress = (String) configyaml.get("ipAddress");
             username = (String) configyaml.get("username");
             password = (String) configyaml.get("password");
-            nickname = (String) configyaml.get("nickname");
 
         } catch (FileNotFoundException e) {
             System.err.println("Error loading config.yaml in Class YamlHandler " + e.getMessage());
@@ -44,9 +42,6 @@ public class YamlHandler {
         return password;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
 
     Map<Integer, Object> news = new HashMap<>();
 

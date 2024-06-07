@@ -6,4 +6,5 @@
 - [x] Yaml Speicherung anpassen, dass die Strings angehängt und nicht ersetzt werden.
 - [x] Regelmäßiges aktualisieren der Quellen
 - [x] Es gibt HTML Links, die nur den Dateipfad als href haben. Dann muss die URL vorne rangehängt werden
+- [ ] Per Befehl aus Backup laden
 - [ ] Tutorial link für !editHTML

@@ -28,6 +28,7 @@ public class XmlHandler {
                             "[size=" + 8 + "]" + item.select("pubDate").first().ownText() + "[/size]" + '\n' + '\n';
 
                     if (xmlToBB.length() > 7500) {
+                        System.out.println(url + " Feed Size: " + xmlToBB.length());
                         return xmlToBB;
                     }
                 }
@@ -35,7 +36,7 @@ public class XmlHandler {
         } catch (IOException e) {
             System.err.println("Error fetching website: " + url + " in Class XmlHandler " + e.getMessage());
         }
-        //System.out.println(xmlToBB.length());
+        System.out.println(url + " Feed Size: " + xmlToBB.length());
         return xmlToBB;
     }
 }

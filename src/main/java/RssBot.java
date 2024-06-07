@@ -30,18 +30,18 @@ public class RssBot {
         TS3Api api = query.getApi();
         api.login(yaml.getUsername(), yaml.getPassword());
         api.selectVirtualServerById(1);
-        api.setNickname(yaml.getNickname());
-        api.sendChannelMessage(yaml.getNickname() + " is online!");
-
-        //Handle incoming commands, initialize autoupdate for Feeds
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        BotCommandsHandler botCommandsHandler = new BotCommandsHandler(api, query, executor);
-        botCommandsHandler.commands();
+        api.setNickname("cato");
+        api.sendChannelMessage("!cato is online.");
 
         //Auto update
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         AutoUpdateFeed autoUpdateFeed = new AutoUpdateFeed(api);
         Runnable task = autoUpdateFeed::readNews;
         int period = 10;
         executor.scheduleAtFixedRate(task, 0, period, TimeUnit.MINUTES);
+
+        //Listen to Bot commands
+        BotCommandsHandler botCommandsHandler = new BotCommandsHandler(api, query, executor);
+        botCommandsHandler.commands();
     }
 }
