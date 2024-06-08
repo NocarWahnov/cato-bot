@@ -1,3 +1,8 @@
+#Login
 ipAddress: "nocars.tk"
+virtualServerId: 1
 username: "serveradmin"
 password: "2jtwh++y"
+
+#Configurate feeds
+autoUpdate: 2

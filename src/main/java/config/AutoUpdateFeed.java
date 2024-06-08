@@ -11,8 +11,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AutoUpdateFeed {
+
+    Logger logger = Logger.getLogger(AutoUpdateFeed.class.getName());
 
     private final TS3Api api;
 
@@ -26,6 +30,11 @@ public class AutoUpdateFeed {
             Yaml yaml = new Yaml();
             InputStream fis = new FileInputStream(file);
             Map<Integer, Object> newsYaml = yaml.load(fis);
+
+            if (newsYaml == null || newsYaml.isEmpty()) {
+                logger.info("news.yaml is currently empty.");
+                return;
+            }
 
             for (Map.Entry<Integer, Object> entry : newsYaml.entrySet()) {
                 String[] size = entry.getValue().toString().split(" ");
@@ -46,7 +55,7 @@ public class AutoUpdateFeed {
             }
 
         } catch (FileNotFoundException e) {
-            System.err.println("Error loading news.yaml to auto refresh feeds in Class AutoUpdateFeed.java " + e.getMessage());
+            logger.log(Level.SEVERE,"Error loading news.yaml to auto refresh feeds in Class AutoUpdateFeed.java ", e.getMessage());
         }
     }
 }

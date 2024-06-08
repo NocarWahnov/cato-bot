@@ -6,7 +6,7 @@
 
     <groupId>tk.nocars</groupId>
     <artifactId>cato-rss</artifactId>
-    <version>0.9</version>
+    <version>0.1</version>
     <!-- <packaging>jar</packaging>  -->
 
     <properties>

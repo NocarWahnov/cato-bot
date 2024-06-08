@@ -6,6 +6,7 @@ import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
+import config.BackupHandler;
 import config.YamlHandler;
 import getNews.HtmlHandler;
 import getNews.XmlHandler;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class BotCommandsHandler {
@@ -24,6 +26,7 @@ public class BotCommandsHandler {
     private final ScheduledExecutorService executor;
 
     YamlHandler yaml = new YamlHandler();
+    BackupHandler backup = new BackupHandler();
 
     public BotCommandsHandler(TS3Api api, TS3Query query, ScheduledExecutorService executor) {
         this.api = api;
@@ -65,12 +68,18 @@ public class BotCommandsHandler {
 
                     switch (inputMessage) {
                         case "!help", "!h":
-                            api.sendPrivateMessage(e.getInvokerId(), "Available commands:" + '\n' +
-                                    "!cid - Shows all Channels and their IDs." + '\n' +
+                            api.sendPrivateMessage(e.getInvokerId(), '\n' + "[b]Available commands:[/b]" + '\n' +
+                                    "[u]General[/u]" + '\n' +
                                     "!shutdown - Disconnects the Bot from the server and disables any channel updates." + '\n' +
+                                    '\n' + "[u]Feed Configuration[/u]" + '\n' +
+                                    "!cid - Shows all Channels and their IDs." + '\n' +
                                     "!add CID RSS-URL - Only Accepts xml. For other sources check !editHTML." + '\n' +
                                     "!addHTML CID URL CSS-PARENT CSS-TITLE CSS-LINK CSS-DESCRIPTION CSS-DATE - Fetches Websites HTML with the defined CSS-Selectors. For examples, please visit the [url=]GitHub Repository[/url]" + '\n' +
-                                    "!rm CID - Removes the feed from the given channel-id");
+                                    "!rm CID - Removes the feed from the given channel-id" + '\n' +
+                                    '\n' + "[u]Backups[/u]" + '\n' +
+                                    "!listbackup - Lists all available backup files." + '\n' +
+                                    "!loadbackup FILENAME - Loads the backup file, if available."
+                            );
                             break;
 
                         case "!cid":
@@ -80,21 +89,18 @@ public class BotCommandsHandler {
 
                         case "!shutdown":
                             LocalDateTime time = LocalDateTime.now();
+                            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm");
+                            String formattedTime = time.format(format);
 
-                            try {
-                                Path copied = Paths.get("news/backup/news-" + time + ".yaml");
-                                Path originalPath = Paths.get("news/news.yaml");
-                                Files.copy(originalPath, copied);
-                                new FileWriter("news/news.yaml", false).close();
+                            api.sendPrivateMessage(e.getInvokerId(), backup.makeBackup(formattedTime));
 
-                            } catch (IOException ex) {
-                                api.sendPrivateMessage(e.getInvokerId(),"Error backing up news.yaml in Class BotCommandsHandler!");
-                            }
-
-                            api.sendPrivateMessage(e.getInvokerId(), "Successfully backed up news.yaml as news-" + time + ".yaml");
                             api.sendPrivateMessage(e.getInvokerId(),"Shutting down - Goodbye!");
                             query.exit();
                             executor.shutdown();
+                            break;
+
+                        case "!listbackup":
+                            api.sendPrivateMessage(e.getInvokerId(), backup.listFiles());
                             break;
                     }
 
@@ -141,6 +147,12 @@ public class BotCommandsHandler {
                         yaml.writeNews();
 
                         api.sendPrivateMessage(e.getInvokerId(),"Removed feed from channel: " + channelNumber + " :)");
+                    }
+                    else if (inputMessage.startsWith("!loadbackup")) {
+                        String[] splitCommand = inputMessage.split("\\s+");
+                        String filename = splitCommand[1];
+
+                        api.sendPrivateMessage(e.getInvokerId(), backup.loadBackup(filename));
                     }
                 }
             }

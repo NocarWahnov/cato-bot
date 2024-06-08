@@ -3,17 +3,19 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import config.AutoUpdateFeed;
+import config.BackupHandler;
 import config.YamlHandler;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class RssBot {
 
     public static void main(String[] args) {
+
+        Logger logger = Logger.getLogger(RssBot.class.getName());
 
         //Read Login Data from config.yaml
         YamlHandler yaml = new YamlHandler();
@@ -29,16 +31,20 @@ public class RssBot {
 
         TS3Api api = query.getApi();
         api.login(yaml.getUsername(), yaml.getPassword());
-        api.selectVirtualServerById(1);
+        api.selectVirtualServerById(yaml.getVirtualServer());
         api.setNickname("cato");
         api.sendChannelMessage("!cato is online.");
+        logger.info("cato is now online on " + yaml.getIpAddress());
 
         //Auto update
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        AutoUpdateFeed autoUpdateFeed = new AutoUpdateFeed(api);
-        Runnable task = autoUpdateFeed::readNews;
-        int period = 10;
-        executor.scheduleAtFixedRate(task, 0, period, TimeUnit.MINUTES);
+        Runnable task = () -> {
+            logger.info("Starting scheduled task");
+            AutoUpdateFeed autoUpdateFeed = new AutoUpdateFeed(api);
+            autoUpdateFeed.readNews();
+            logger.info("Finished scheduled task");
+        };
+        executor.scheduleAtFixedRate(task, 1, yaml.getAutoUpdate(), TimeUnit.MINUTES);
 
         //Listen to Bot commands
         BotCommandsHandler botCommandsHandler = new BotCommandsHandler(api, query, executor);

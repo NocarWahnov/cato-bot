@@ -6,12 +6,18 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class YamlHandler {
 
+    Logger logger = Logger.getLogger(YamlHandler.class.getName());
+
     private String ipAddress;
+    private int virtualServer;
     private String username;
     private String password;
+    private int autoUpdate;
 
     public void readConfig() {
         File file = new File("config.yaml");
@@ -21,11 +27,13 @@ public class YamlHandler {
             Map<String, Object> configyaml = yaml.load(fis);
 
             ipAddress = (String) configyaml.get("ipAddress");
+            virtualServer = (Integer) configyaml.get("virtualServerId");
             username = (String) configyaml.get("username");
             password = (String) configyaml.get("password");
+            autoUpdate = (Integer) configyaml.get("autoUpdate");
 
         } catch (FileNotFoundException e) {
-            System.err.println("Error loading config.yaml in Class YamlHandler " + e.getMessage());
+            logger.log(Level.SEVERE,"Error loading config.yaml in Class YamlHandler " + e.getMessage());
         }
 
     }
@@ -34,12 +42,20 @@ public class YamlHandler {
         return ipAddress;
     }
 
+    public int getVirtualServer() {
+        return virtualServer;
+    }
+
     public String getUsername() {
         return username;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public int getAutoUpdate() {
+        return autoUpdate;
     }
 
 
@@ -62,7 +78,7 @@ public class YamlHandler {
             writeyaml.dump(news, writer);
 
         } catch (IOException e) {
-            System.err.println("Error writing news.yaml in Class YamlHandler " + e.getMessage());
+            logger.log(Level.SEVERE,"Error writing news.yaml in Class YamlHandler " + e.getMessage());
         }
     }
 }
