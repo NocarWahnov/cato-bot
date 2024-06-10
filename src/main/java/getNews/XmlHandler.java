@@ -27,7 +27,7 @@ public class XmlHandler {
                             "[size=" + 12 + "]" + item.select("description").first().ownText() + "[/size]" + '\n' +
                             "[size=" + 8 + "]" + item.select("pubDate").first().ownText() + "[/size]" + '\n' + '\n';
 
-                    if (xmlToBB.length() > 7500) {
+                    if (xmlToBB.length() > 7000) {
                         System.out.println(url + " Feed Size: " + xmlToBB.length());
                         return xmlToBB;
                     }

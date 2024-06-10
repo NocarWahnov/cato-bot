@@ -3,7 +3,6 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import config.AutoUpdateFeed;
-import config.BackupHandler;
 import config.YamlHandler;
 
 import java.util.concurrent.Executors;

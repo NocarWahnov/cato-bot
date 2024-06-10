@@ -61,6 +61,10 @@ public class YamlHandler {
 
     Map<Integer, Object> news = new HashMap<>();
 
+    public Map<Integer, Object> getNews() {
+        return news;
+    }
+
     public void addNews (int id, String parameters) {
         news.put(id, parameters);
     }

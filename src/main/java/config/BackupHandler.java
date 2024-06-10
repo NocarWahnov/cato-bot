@@ -1,18 +1,23 @@
 package config;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class BackupHandler {
+
+    private final YamlHandler yamlHandler;
+
+    public BackupHandler(YamlHandler yaml) {
+        this.yamlHandler = yaml;
+    }
 
     Logger logger = Logger.getLogger(BackupHandler.class.getName());
 
@@ -25,10 +30,10 @@ public class BackupHandler {
             Path copyTo = Paths.get("news/backup/news-" + time + ".yaml");
 
             Files.copy(copyFrom, copyTo);
-            new FileWriter("news/news.yaml", false).close();
+            //new FileWriter("news/news.yaml", false).close();
 
         } catch (IOException e) {
-            return "Error backing up news.yaml in Class BotCommandsHandler!";
+            return "Error backing up news.yaml in Class BackupHandler!";
         }
 
         return "Successfully backed up news.yaml as news-" + time + ".yaml";
@@ -41,24 +46,41 @@ public class BackupHandler {
             message = message + file.getName() + "\n";
         }
 
-        //System.out.println(message);
         return message;
     }
 
-    public String loadBackup (String filename) {
+    public Map<Integer, String> getBackupFile (String filename) {
+        File file = new File("news/backup/" + filename);
         try {
-            Path copyFrom = Paths.get("news/backup/" + filename);
-            Path copyTo = Paths.get("news/news.yaml");
+            Yaml yaml = new Yaml();
+            InputStream fis = new FileInputStream(file);
+            Map<Integer, String> backupyaml = yaml.load(fis);
 
-            Files.copy(copyFrom, copyTo, StandardCopyOption.REPLACE_EXISTING);
-            //new FileWriter("news/backup/" + filename, false).close();
-
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error loading Backup", e);
-            return "Error overwriting " + filename + " into news.yaml";
+            return backupyaml;
+        } catch (FileNotFoundException e) {
+            logger.log(Level.SEVERE,"Error loading backup file " + e.getMessage());
         }
+        return null;
+    }
+
+    public String loadBackup (String filename) {
+
+        for (Map.Entry<Integer, String> entry : getBackupFile(filename).entrySet()) {
+            yamlHandler.addNews(entry.getKey(), entry.getValue());
+        }
+        yamlHandler.writeNews();
 
         return "Successfully loaded " + filename;
+    }
+
+    public String printBackup (String filename) {
+        String content = "\n";
+
+        for (Map.Entry<Integer, String> entry : getBackupFile(filename).entrySet()) {
+            content = content + entry.getKey() + ": " + entry.getValue() + "\n";
+        }
+
+        return content;
     }
 
 }

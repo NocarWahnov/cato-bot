@@ -44,7 +44,7 @@ public class HtmlHandler {
                         "[size=" + 12 + "]" + tlcd.select(paragraphSelector).text() + "[/size]" + '\n' +
                         "[size=" + 8 + "]" + tlcd.select(dateSelector).text() + "[/size]" + '\n' + '\n';
 
-                if (htmlToBB.length() > 7500) {
+                if (htmlToBB.length() > 7000) {
                     System.out.println(url + " Feed Size: " + htmlToBB.length());
                     return htmlToBB;
                 }
