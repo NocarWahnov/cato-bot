@@ -1,6 +1,5 @@
 # To-Do
 - Bookmark Command / Feature?
-- Refresh feeds on command
 - !addhtml: Falls href keine vollständige url haben, darf die angehängte url nur .com und nicht .com/de oder so sein
 - Tutorial link für !editHTML
 
@@ -24,3 +23,4 @@
 - Per Befehl aus Backup laden
 - !h command schöner machen (Mit Überschriften)
 - Print Backupfile as Message
+- Refresh feeds on command

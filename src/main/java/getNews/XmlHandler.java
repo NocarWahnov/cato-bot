@@ -16,6 +16,12 @@ public class XmlHandler {
 
     Document xml = null;
 
+    /**
+    * Uses JSoup to load a xml source
+    * Formats the Input to BB Code for Teamspeak
+    * Returns a String with the formatted Text, so it can be used by the Teamspeak API to edit the Channel
+    * */
+
     public String handleXml () {
         String xmlToBB = "";
         try {

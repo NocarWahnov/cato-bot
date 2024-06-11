@@ -19,6 +19,10 @@ public class YamlHandler {
     private String password;
     private int autoUpdate;
 
+    /**
+     * readConfig Reads the config.yaml and sets the class fields, so they can be used to login the bot and set a refresh interval for AutoUpdateFeed
+     * */
+
     public void readConfig() {
         File file = new File("config.yaml");
         try {
@@ -65,13 +69,26 @@ public class YamlHandler {
         return news;
     }
 
+    /**
+     * addNews adds an entry into the news Map
+     * */
+
     public void addNews (int id, String parameters) {
         news.put(id, parameters);
     }
 
+    /**
+     * removeNews Removes an entry of the news Map, requires the key.
+     * */
+
     public void removeNews (int id) {
         news.remove(id);
     }
+
+    /**
+     * writeNews writes the news HashMap into the news.yaml file
+     * news.yaml is then used by AutoUpdateFeed to automatically refresh the channel descriptions
+     * */
 
     public void writeNews() {
         try {

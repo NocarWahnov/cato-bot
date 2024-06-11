@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tk.nocars</groupId>
-    <artifactId>cato-rss</artifactId>
+    <artifactId>cato-bot</artifactId>
     <version>0.1</version>
     <!-- <packaging>jar</packaging>  -->
 
@@ -26,7 +26,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>RssBot</mainClass>
+                            <mainClass>CatoBot</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

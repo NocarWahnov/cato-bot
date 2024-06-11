@@ -24,6 +24,14 @@ public class AutoUpdateFeed {
         this.api = api;
     }
 
+    /**
+     * readNews reads the news.yaml file
+     * If news.yaml is empty, abort the method (return), so the ScheduledExecutorService in RssBot won't get stuck
+     * Else split each line of news.yaml into an array
+     * If the array is bigger than one it is an addhtml command, so it needs the HtmlHandler. It then directly edits the channel descriptions
+     * else it is a xml command, and it needs the XmlHandler. It then directly edits the channel descriptions
+     * */
+
     public void readNews() {
         File file = new File("news/news.yaml");
         try {

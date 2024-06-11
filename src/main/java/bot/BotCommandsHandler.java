@@ -35,6 +35,13 @@ public class BotCommandsHandler {
         this.executor = executor;
     }
 
+    /**
+     * commands contains all the reactions to all the commands
+     * I added an event listener for channel messages and one for private messages
+     * I designed the bot to listen to !cato in the Standard Channel and then everything else will be handled via a private chat
+     * I tried to only split the commands here and handle all the logic in the relevant classes
+     * */
+
     public void commands () {
         //Own Client ID (Bot ID), to prevent listening to own messages
         final int clientId = api.whoAmI().getId();

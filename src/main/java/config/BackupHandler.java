@@ -24,6 +24,10 @@ public class BackupHandler {
     File backupFolder = new File("news/backup/");
     File[] getBackupFiles = backupFolder.listFiles();
 
+    /**
+    * makeBackup copies the content of news.yaml into a new created backup file in /news/backup
+    * */
+
     public String makeBackup (String time) {
         try {
             Path copyFrom = Paths.get("news/news.yaml");
@@ -39,6 +43,11 @@ public class BackupHandler {
         return "Successfully backed up news.yaml as news-" + time + ".yaml";
     }
 
+    /**
+    * listFiles lists all available files in the backup folder
+    * returns a String for the sendMessage of TeamspeakAPI
+    * */
+
     public String listFiles() {
         String message = "\n";
 
@@ -48,6 +57,10 @@ public class BackupHandler {
 
         return message;
     }
+
+    /**
+    * getBackupFile loads a named backup file and returns its content as a map.
+    */
 
     public Map<Integer, String> getBackupFile (String filename) {
         File file = new File("news/backup/" + filename);
@@ -63,6 +76,11 @@ public class BackupHandler {
         return null;
     }
 
+    /**
+    * loadBackup loads a given backup file into the news.yaml, so the Backup will be used.
+    * Returns a successful String, so the bot can send a message in the chat.
+    */
+
     public String loadBackup (String filename) {
 
         for (Map.Entry<Integer, String> entry : getBackupFile(filename).entrySet()) {
@@ -72,6 +90,10 @@ public class BackupHandler {
 
         return "Successfully loaded " + filename;
     }
+
+    /**
+    * printBackup returns a String that contains the content of a given filename
+    */
 
     public String printBackup (String filename) {
         String content = "\n";

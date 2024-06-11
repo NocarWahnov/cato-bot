@@ -26,6 +26,12 @@ public class HtmlHandler {
         this.dateSelector = dateSelector;
     }
 
+    /**
+    * Uses the selectors (Strings that are collected by the constructor) to extract text out of a html document
+    * Formats the extracted data to BBCode for Teamspeak
+    * Returns a String with the formatted Text, so it can be used by the Teamspeak API to edit the Channel
+    */
+
     public String handleHtml() {
         String htmlToBB = "";
 
