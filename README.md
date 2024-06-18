@@ -1,9 +1,24 @@
+# !addhtml Boilerplate
+## 9to5mac.com
+```
+!addhtml CID https://9to5mac.com/ article.article.standard h2.h1 h2.h1>a div.article__content>div.article__excerpt>p div.post-meta>span.meta__post-date```
+```
+## guildwars2.com News
+```
+!addhtml CID https://www.guildwars2.com/en/news/ li.blog-post h3.blog-title h3.blog-title>a div.text>p:first-child p.blog-attribution
+```
+
 # To-Do
 - Bookmark Command / Feature?
-- !addhtml: Falls href keine vollständige url haben, darf die angehängte url nur .com und nicht .com/de oder so sein
+- !addhtml: Falls hrefs keine vollständige url haben, darf die angehängte url nur .com und nicht .com/de oder so sein
 - Tutorial link für !editHTML
 
 # Changelog
+## 18.06.24
+- XmlHandler now removes any tags of the description before returning the String
+- Readme now contains Boilerplate for !addhtml
+## 11.06.24
+- Commented Code
 ## 10.06.24
 - !refresh command added - Manually refresh your feeds once
 ## 09.06.24

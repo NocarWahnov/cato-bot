@@ -8,8 +8,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class HtmlHandler {
-    private final String url; // !addhtml 1 https://www.guildwars2.com/de/news/ li.blog-post h3.blog-title h3.blog-title>a div.text>p:first-child p.blog-attribution
-    private final String parentSelector; // !addhtml 3 https://9to5mac.com/ article.article.standard h2.h1 h2.h1>a div.article__content>div.article__excerpt>p div.post-meta>span.meta__post-date
+    private final String url;
+    private final String parentSelector;
     private final String titleSelector;
     private final String linkSelector;
     private final String paragraphSelector;
