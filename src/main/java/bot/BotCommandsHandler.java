@@ -6,6 +6,7 @@ import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
+import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import config.AutoUpdateFeed;
 import config.BackupHandler;
 import config.YamlHandler;
@@ -145,31 +146,37 @@ public class BotCommandsHandler {
                         String description = splitCommand[6];
                         String date = splitCommand[7];
 
-                        HtmlHandler htmlHandler = new HtmlHandler(url, parent, title, link, description, date);
-
-                        api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, htmlHandler.handleHtml());
+                        try {
+                            HtmlHandler htmlHandler = new HtmlHandler(url, parent, title, link, description, date);
+                            api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, htmlHandler.handleHtml());
+                            api.sendPrivateMessage(e.getInvokerId(),"Added custom html feed from  " + url + " to channel: " + channelNumber + " :)");
+                        } catch (TS3CommandFailedException ts) {
+                            System.err.println("Error loading website: " + url + " too many characters " + ts.getMessage());
+                            api.sendPrivateMessage(e.getInvokerId(),"Error parsing " + url + " to channel: " + channelNumber + ". Invalid parameter size.");
+                        }
 
                         String store = url + " " + parent + " " + title + " " + link + " " + description + " " + date;
                         yaml.addNews(channelNumber, store);
                         System.out.println(yaml.getNews());
                         yaml.writeNews();
-
-                        api.sendPrivateMessage(e.getInvokerId(),"Added custom html feed from  " + url + " to channel: " + channelNumber + " :)");
                     }
                     else if (inputMessage.startsWith("!add")) {
                         String[] splitCommand = inputMessage.split("\\s+");
                         int channelNumber = Integer.parseInt(splitCommand[1]);
                         String url = splitCommand[2].replaceAll("\\[.*?\\] ?", "");
 
-                        XmlHandler xmlHandler = new XmlHandler(url);
-
-                        api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, xmlHandler.handleXml());
+                        try {
+                            XmlHandler xmlHandler = new XmlHandler(url);
+                            api.editChannel(channelNumber, ChannelProperty.CHANNEL_DESCRIPTION, xmlHandler.handleXml());
+                            api.sendPrivateMessage(e.getInvokerId(),"Added rss-feed from" + url + " to channel: " + channelNumber + " :)");
+                        } catch (TS3CommandFailedException ts) {
+                            System.err.println("Error loading website: " + url + " too many characters " + ts.getMessage());
+                            api.sendPrivateMessage(e.getInvokerId(),"Error parsing " + url + " to channel: " + channelNumber + ". Invalid parameter size.");
+                        }
 
                         yaml.addNews(channelNumber, url);
                         System.out.println(yaml.getNews());
                         yaml.writeNews();
-
-                        api.sendPrivateMessage(e.getInvokerId(),"Added rss-feed from" + url + " to channel: " + channelNumber + " :)");
                     }
                     else if (inputMessage.startsWith("!rm")) {
                         String[] splitCommand = inputMessage.split("\\s+");

@@ -1,7 +1,7 @@
 # !addhtml Boilerplate
 ## 9to5mac.com
 ```
-!addhtml CID https://9to5mac.com/ article.article.standard h2.h1 h2.h1>a div.article__content>div.article__excerpt>p div.post-meta>span.meta__post-date```
+!addhtml CID https://9to5mac.com/ article.article.standard h2.h1 h2.h1>a div.article__content>div.article__excerpt>p div.post-meta>span.meta__post-date
 ```
 ## guildwars2.com News
 ```
@@ -14,6 +14,9 @@
 - Tutorial link für !editHTML
 
 # Changelog
+## 04.07.24
+- AutoUpdateFeed got stuck because the "invalid parameter size" error of the Teamspeak API wasn't handled correctly. This should be fixed now.
+- XML feed descriptions now have a maximum character size of 500 to avoid the "invalid parameter size" error of the Teamspeak API.
 ## 18.06.24
 - XmlHandler now removes any tags of the description before returning the String
 - Readme now contains Boilerplate for !addhtml

@@ -2,6 +2,7 @@ package config;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
+import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import getNews.HtmlHandler;
 import getNews.XmlHandler;
 import org.yaml.snakeyaml.Yaml;
@@ -64,6 +65,8 @@ public class AutoUpdateFeed {
 
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE,"Error loading news.yaml to auto refresh feeds in Class AutoUpdateFeed.java ", e.getMessage());
+        } catch (TS3CommandFailedException ts) {
+            System.err.println("Error while auto updating one feed." + ts.getMessage());
         }
     }
 }
