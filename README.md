@@ -7,6 +7,10 @@
 ```
 !addhtml CID https://www.guildwars2.com/en/news/ li.blog-post h3.blog-title h3.blog-title>a div.text>p:first-child p.blog-attribution
 ```
+## swtorista.com
+```
+ !addhtml CID https://swtorista.com/ .news-card .title .title p 0
+```
 
 # To-Do
 - Bookmark Command / Feature?
@@ -15,6 +19,7 @@
 
 # Changelog
 ## 04.07.24
+- !addthtml: If you do not want to provide a title, link, paragraph or date, you can now type 0 and those won't be added.
 - AutoUpdateFeed got stuck because the "invalid parameter size" error of the Teamspeak API wasn't handled correctly. This should be fixed now.
 - XML feed descriptions now have a maximum character size of 500 to avoid the "invalid parameter size" error of the Teamspeak API.
 ## 18.06.24

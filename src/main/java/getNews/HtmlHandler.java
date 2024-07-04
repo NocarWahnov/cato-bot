@@ -28,6 +28,7 @@ public class HtmlHandler {
 
     /**
     * Uses the selectors (Strings that are collected by the constructor) to extract text out of a html document
+     * When the selectors contain 0, nothing regarding the selector will be added to the feed.
     * Formats the extracted data to BBCode for Teamspeak
     * Returns a String with the formatted Text, so it can be used by the Teamspeak API to edit the Channel
     */
@@ -37,18 +38,35 @@ public class HtmlHandler {
 
         try {
             feed = Jsoup.connect(url).get();
-            Elements oneNews = feed.select(parentSelector);
+            Elements newsBlock = feed.select(parentSelector);
 
-            for (Element tlcd : oneNews) {
-                String href = tlcd.select(linkSelector).attr("href");
+            for (Element element : newsBlock) {
+                String href = element.select(linkSelector).attr("href");
+                String title = "";
+                String description = "";
+                String date = "";
+
                 if (href.startsWith("/")) {
                     href = url + href;
                 }
 
+                if (!titleSelector.contains("0")) {
+                    title = element.select(titleSelector).text();
+                }
+
+                if (!parentSelector.contains("0")) {
+                    description = element.select(paragraphSelector).text();
+                }
+
+                if (!dateSelector.contains("0")) {
+                    date = element.select(dateSelector).text();
+                }
+
                 htmlToBB = htmlToBB +
-                        "[b][size=" + 14 + "][url=" + href + "]" + tlcd.select(titleSelector).text() + "[/url][/size][/b]" + '\n' +
-                        "[size=" + 12 + "]" + tlcd.select(paragraphSelector).text() + "[/size]" + '\n' +
-                        "[size=" + 8 + "]" + tlcd.select(dateSelector).text() + "[/size]" + '\n' + '\n';
+                        "[b][size=" + 14 + "][url=" + href + "]" + title + "[/url][/size][/b]" + '\n' +
+                        "[size=" + 12 + "]" + description + "[/size]" + '\n' +
+                        "[size=" + 8 + "]" + date + "[/size]" + '\n' + '\n';
+
 
                 if (htmlToBB.length() > 7000) {
                     System.out.println(url + " Feed Size: " + htmlToBB.length());

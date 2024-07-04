@@ -6,7 +6,7 @@
 
     <groupId>tk.nocars</groupId>
     <artifactId>cato-bot</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <!-- <packaging>jar</packaging>  -->
 
     <properties>
