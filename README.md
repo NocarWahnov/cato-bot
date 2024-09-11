@@ -9,11 +9,11 @@
 ```
 ## swtorista.com
 ```
- !addhtml CID https://swtorista.com/ .news-card .title .title p 0
+!addhtml CID https://swtorista.com/ .news-card .title .title p 0
 ```
 ## Hunt Showdown News
 ```
- !addhtml CID https://www.huntshowdown.com/news .news-feature-text a>h3 a p h5>a>span
+!addhtml CID https://www.huntshowdown.com/news .news-feature-text a>h3 a p h5>a>span
 ```
 
 # To-Do
