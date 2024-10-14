@@ -1,5 +1,23 @@
 # Introduction
 Cato-Bot is a teamspeak bot, that can edit channel descriptions in a given interval. You can either provide a xml source (rss) or fetch a website with css-selectors.
+![image](https://media.nocars.tk/cato-screenshot.png)
+
+# Install
+1. Grab the latest files from the release section.
+2. Unpack the folder and place it on the desired location.
+3. Edit `config.yaml` and change the following parameters:
+    - `ipAddress`
+    - `username`
+    - `password`
+4. Run `java -jar ./cato-bot-0.2.jar`. At least JDK 22 or higher is required.
+5. The bot should make itself noticeable with a message in the default channel.
+
+If you **don't have Java** installed or **prefer** to run the bot as a **docker container**:\
+Follow the instructions up to step 4. Then run:\
+_Important: Change the -v paths to match the paths on your machine._
+```
+sudo docker run -d --name cato-bot -v /path/to/cato-bot/config.yaml:/config.yaml -v /path/to/cato-bot/news/:/news git.nocars.tk/joenocar/cato-bot
+```
 
 # Command Overview
 ## Feed configuration
