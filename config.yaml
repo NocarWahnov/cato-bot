@@ -2,9 +2,9 @@
 #Can be a domain, too
 ipAddress: "changeme"
 virtualServerId: 1
-#Username for bot
+#The query account username
 username: "serveradmin"
-#Password for bot
+#Password for query account
 password: "passwordhere"
 
 #C O N F I G U R E  F E E D S

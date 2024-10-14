@@ -67,9 +67,8 @@ public class BackupHandler {
         try {
             Yaml yaml = new Yaml();
             InputStream fis = new FileInputStream(file);
-            Map<Integer, String> backupyaml = yaml.load(fis);
 
-            return backupyaml;
+            return yaml.load(fis);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE,"Error loading backup file " + e.getMessage());
         }
