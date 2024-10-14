@@ -1,8 +1,12 @@
-#Login
-ipAddress: "nocars.tk"
+#L O G I N
+#Can be a domain, too
+ipAddress: "changeme"
 virtualServerId: 1
+#Username for bot
 username: "serveradmin"
-password: "2jtwh++y"
+#Password for bot
+password: "passwordhere"
 
-#Configurate feeds
-autoUpdate: 2
+#C O N F I G U R E  F E E D S
+#The interval to update the feeds in minutes
+autoUpdate: 15
