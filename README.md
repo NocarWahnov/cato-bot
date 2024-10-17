@@ -22,7 +22,7 @@ If you **don't have Java** installed or **prefer** to run the bot as a **docker 
 Follow the instructions up to step 4. Then run:\
 _Important: Change the -v paths to match the paths on your machine._
 ```
-sudo docker run -d --name cato-bot -v /path/to/cato-bot/config.yaml:/config.yaml -v /path/to/cato-bot/news/:/news git.nocars.tk/joenocar/cato-bot
+sudo docker run -d --name cato-bot -v /path/to/cato-bot/config.yaml:/config.yaml -v /path/to/cato-bot/news/:/news wanov/cato-bot:latest
 ```
 
 # Command Overview
