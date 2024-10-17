@@ -1,6 +1,12 @@
-# Introduction
-Cato-Bot is a teamspeak bot, that can edit channel descriptions in a given interval. You can either provide a xml source (rss) or fetch a website with css-selectors.
-![image](https://media.nocars.tk/cato-screenshot.png)
+<p align="center">
+    <img src="https://media.nocars.tk/cato-logo.png" alt="logo" width="100"/>
+</p>
+<p align="center">
+    Cato-Bot is a teamspeak bot, that can edit channel descriptions in a given interval. You can either provide a xml source (rss) or fetch a website with css-selectors.
+</p>
+<p align="center">
+    <img src="https://media.nocars.tk/cato-screenshot.png" alt="logo" width="600"/>
+</p>
 
 # Install
 1. Grab the latest files from the release section.
